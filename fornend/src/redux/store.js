@@ -24,20 +24,20 @@ const formReducer = (data = initialForm, action) => {
 
 export const studentAction = {
     getStudentsSuccess: students => ({
-        type: 'GET_STUDENTS_SUCCESS',
+        type: 'GET_SUCCESS',
         students
     }),
-    getStudentsFailed: () => ({ type: 'GET_STUDENTS_FAILED' }),
+    getStudentsFailed: () => ({ type: 'GET_FAILED' }),
     getStudents: () => async (dispatch) => {
         try {
             console.log('get student new')
             const response = await axios.get(`http://localhost:8000/api/students`)
             const responseBody = await response.data
             console.log('response:', responseBody)
-            dispatch({ type: 'GET_STUDENTS_SUCCESS', students: responseBody })
+            dispatch({ type: 'GET_SUCCESS', students: responseBody })
         } catch (error) {
             console.log(error)
-            dispatch({ type: 'GET_STUDENTS_FAILED', error: error})
+            dispatch({ type: 'GET_FAILED', error: error})
         }
     }
 }
@@ -53,8 +53,8 @@ const studentReducer = (students = [], action) => {
             else
                 return student;
         })
-        case 'GET_STUDENTS_SUCCESS': return action.students
-        case 'GET_STUDENTS_FAILED': return action.error
+        case 'GET_SUCCESS': return action.students
+        case 'GET_FAILED': return action.error
         default: return students
     }
 }
